@@ -21,7 +21,15 @@ interface Factory
 {
     public function create(array $extra = []): Model;
 
+    public function make(array $extra = []): Model;
+
+    public function raw(array $extra = []): array;
+
     public function times(int $times, array $extra = []): Collection;
+
+    public function timesMake(int $times, array $extra = []): Collection;
+
+    public function timesRaw(int $times, array $extra = []): Collection;
 
     public function with(string $relatedModelClass, string $relationshipName, int $times = 1);
 
