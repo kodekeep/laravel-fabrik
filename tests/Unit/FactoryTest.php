@@ -43,8 +43,8 @@ class FactoryTest extends TestCase
     /** @test */
     public function it_gives_you_multiple_factory_model_instances_that_were_persisted(): void
     {
-        $this->assertInstanceOf(Collection::class, UserFactory::new()->times(3));
-        $this->assertCount(3, UserFactory::new()->times(3));
+        $this->assertInstanceOf(Collection::class, UserFactory::new()->times(3)->create());
+        $this->assertCount(3, UserFactory::new()->times(3)->create());
     }
 
     /** @test */
@@ -56,8 +56,8 @@ class FactoryTest extends TestCase
     /** @test */
     public function it_gives_you_multiple_factory_model_instances_that_were_instantiated(): void
     {
-        $this->assertInstanceOf(Collection::class, UserFactory::new()->timesMake(3));
-        $this->assertCount(3, UserFactory::new()->timesMake(3));
+        $this->assertInstanceOf(Collection::class, UserFactory::new()->times(3)->make());
+        $this->assertCount(3, UserFactory::new()->times(3)->make());
     }
 
     /** @test */
@@ -69,14 +69,23 @@ class FactoryTest extends TestCase
     /** @test */
     public function it_gives_you_multiple_factory_model_instances_that_are_raw(): void
     {
-        $this->assertInstanceOf(Collection::class, UserFactory::new()->timesRaw(3));
-        $this->assertCount(3, UserFactory::new()->timesRaw(3));
+        $this->assertInstanceOf(Collection::class, UserFactory::new()->times(3)->raw());
+        $this->assertCount(3, UserFactory::new()->times(3)->raw());
     }
 
     /** @test */
     public function it_lets_you_overwrite_default_data(): void
     {
         $this->assertSame('John', UserFactory::new()->create(['name' => 'John'])->name);
+    }
+
+    /** @test */
+    public function it_gies_you_a_new_factory_when_using_times(): void
+    {
+        $factory = UserFactory::new();
+
+        $this->assertSame($factory, $factory->with(Post::class, 'posts'));
+        $this->assertNotSame($factory, $factory->times(3));
     }
 
     /** @test **/

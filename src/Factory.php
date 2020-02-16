@@ -15,7 +15,6 @@ namespace KodeKeep\Fabrik;
 
 use BadMethodCallException;
 use Faker\Factory as FakerFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -27,6 +26,8 @@ abstract class Factory implements Contract
 
     private Collection $relatedModels;
 
+    private int $amount = 1;
+
     public function __construct()
     {
         $this->relatedModels = new Collection();
@@ -37,47 +38,41 @@ abstract class Factory implements Contract
         return new static();
     }
 
-    public function create(array $extra = []): Model
+    public function create(array $extra = [])
     {
-        $result = $this->modelClass::create($this->raw($extra));
+        return $this->createMany(function () use ($extra) {
+            $result = $this->modelClass::create($this->mergeExtraAttributes($extra));
 
-        $this
-            ->relatedModels
-            ->each(fn ($models, $relationship) => $result->{$relationship}()->saveMany($models));
+            $this->relatedModels->each(fn ($models, $relationship) => $result->{$relationship}()->saveMany($models));
 
-        return $result;
+            return $result;
+        });
     }
 
-    public function make(array $extra = []): Model
+    public function make(array $extra = [])
     {
-        return new $this->modelClass($this->raw($extra));
+        return $this->createMany(fn () => new $this->modelClass($this->mergeExtraAttributes($extra)));
     }
 
-    public function raw(array $extra = []): array
+    public function raw(array $extra = [])
     {
-        return array_merge($this->getData(FakerFactory::create()), $extra);
+        return $this->createMany(fn () => $this->mergeExtraAttributes($extra));
     }
 
-    public function times(int $times, array $extra = []): Collection
+    public function times(int $amount): self
     {
-        return collect()->times($times)->transform(fn () => $this->create($extra));
-    }
+        $clone = clone $this;
 
-    public function timesMake(int $times, array $extra = []): Collection
-    {
-        return collect()->times($times)->transform(fn () => $this->make($extra));
-    }
+        $clone->amount = $amount;
 
-    public function timesRaw(int $times, array $extra = []): Collection
-    {
-        return collect()->times($times)->transform(fn () => $this->raw($extra));
+        return $clone;
     }
 
     public function with(string $relatedModelClass, string $relationshipName, int $times = 1): self
     {
         $this->relatedModels->put(
             $relationshipName,
-            $this->guessFactoryClassName($relatedModelClass)->timesMake($times)
+            Collection::wrap($this->guessFactoryClassName($relatedModelClass)->times($times)->make())
         );
 
         return $this;
@@ -90,6 +85,19 @@ abstract class Factory implements Contract
         }
 
         throw new BadMethodCallException(sprintf('Call to undefined method %s::%s()', static::class, $method));
+    }
+
+    private function createMany(callable $callback)
+    {
+        $result = collect()->times($this->amount)->transform($callback);
+
+        $this->times = 1;
+
+        if ($result->count() === 1) {
+            return $result->first();
+        }
+
+        return $result;
     }
 
     private function guessFactoryClassName(string $className): Contract
@@ -108,5 +116,10 @@ abstract class Factory implements Contract
         $relationshipName = Str::camel(Str::plural($modelName));
 
         return $this->with($modelClass, $relationshipName, Arr::get($parameters, 0, 1));
+    }
+
+    private function mergeExtraAttributes(array $extra): array
+    {
+        return array_merge($this->getData(FakerFactory::create()), $extra);
     }
 }

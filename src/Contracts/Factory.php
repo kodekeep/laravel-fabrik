@@ -14,22 +14,16 @@ declare(strict_types=1);
 namespace KodeKeep\Fabrik\Contracts;
 
 use Faker\Generator;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 
 interface Factory
 {
-    public function create(array $extra = []): Model;
+    public function create(array $extra = []);
 
-    public function make(array $extra = []): Model;
+    public function make(array $extra = []);
 
-    public function raw(array $extra = []): array;
+    public function raw(array $extra = []);
 
-    public function times(int $times, array $extra = []): Collection;
-
-    public function timesMake(int $times, array $extra = []): Collection;
-
-    public function timesRaw(int $times, array $extra = []): Collection;
+    public function times(int $times): self;
 
     public function with(string $relatedModelClass, string $relationshipName, int $times = 1);
 
