@@ -22,7 +22,7 @@ composer require kodekeep/laravel-fabrik
 
 ## Usage
 
-See our [tests](https://github.com/kodekeep/laravel-fabrik/tree/master/tests/Unit) for usage examples.
+See our [tests](https://github.com/kodekeep/laravel-fabrik/tree/master/tests) for usage examples.
 
 ## Testing
 

@@ -1,6 +1,6 @@
 {
     "name": "kodekeep/laravel-fabrik",
-    "description": ":package_description",
+    "description": "Supercharged Model Factories for Laravel.",
     "keywords": [
         "kodekeep",
         "laravel-fabrik"
