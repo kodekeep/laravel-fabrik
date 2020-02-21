@@ -14,8 +14,9 @@ declare(strict_types=1);
 namespace KodeKeep\Fabrik\Contracts;
 
 use Faker\Generator;
+use KodeKeep\Fabrik\ModelCollectionFactory;
 
-interface Factory
+interface ModelFactory
 {
     public function create(array $extra = []);
 
@@ -23,7 +24,7 @@ interface Factory
 
     public function raw(array $extra = []);
 
-    public function times(int $times): self;
+    public function times(int $times): ModelCollectionFactory;
 
     public function with(string $relatedModelClass, string $relationshipName, int $times = 1);
 

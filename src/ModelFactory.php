@@ -15,18 +15,17 @@ namespace KodeKeep\Fabrik;
 
 use BadMethodCallException;
 use Faker\Factory as FakerFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use KodeKeep\Fabrik\Contracts\Factory as Contract;
+use KodeKeep\Fabrik\Contracts\ModelFactory as Contract;
 
-abstract class Factory implements Contract
+abstract class ModelFactory implements Contract
 {
     protected string $modelClass;
 
     private Collection $relatedModels;
-
-    private int $amount = 1;
 
     public function __construct()
     {
@@ -38,34 +37,28 @@ abstract class Factory implements Contract
         return new static();
     }
 
-    public function create(array $extra = [])
+    public function create(array $extra = []): Model
     {
-        return $this->createMany(function () use ($extra) {
-            $result = $this->modelClass::create($this->mergeExtraAttributes($extra));
+        $result = $this->modelClass::create($this->mergeExtraAttributes($extra));
 
-            $this->relatedModels->each(fn ($models, $relationship) => $result->{$relationship}()->saveMany($models));
+        $this->relatedModels->each(fn ($models, $relationship) => $result->{$relationship}()->saveMany($models));
 
-            return $result;
-        });
+        return $result;
     }
 
-    public function make(array $extra = [])
+    public function make(array $extra = []): Model
     {
-        return $this->createMany(fn () => new $this->modelClass($this->mergeExtraAttributes($extra)));
+        return new $this->modelClass($this->mergeExtraAttributes($extra));
     }
 
-    public function raw(array $extra = [])
+    public function raw(array $extra = []): array
     {
-        return $this->createMany(fn () => $this->mergeExtraAttributes($extra));
+        return $this->mergeExtraAttributes($extra);
     }
 
-    public function times(int $amount): self
+    public function times(int $amount): ModelCollectionFactory
     {
-        $clone = clone $this;
-
-        $clone->amount = $amount;
-
-        return $clone;
+        return new ModelCollectionFactory($this, $amount);
     }
 
     public function with(string $relatedModelClass, string $relationshipName, int $times = 1): self
@@ -85,19 +78,6 @@ abstract class Factory implements Contract
         }
 
         throw new BadMethodCallException(sprintf('Call to undefined method %s::%s()', static::class, $method));
-    }
-
-    private function createMany(callable $callback)
-    {
-        $result = collect()->times($this->amount)->transform($callback);
-
-        $this->times = 1;
-
-        if ($result->count() === 1) {
-            return $result->first();
-        }
-
-        return $result;
     }
 
     private function guessFactoryClassName(string $className): Contract

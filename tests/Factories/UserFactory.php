@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace KodeKeep\Fabrik\Tests\Factories;
 
 use Faker\Generator;
-use KodeKeep\Fabrik\Factory;
+use KodeKeep\Fabrik\ModelFactory;
 
-class UserFactory extends Factory
+class UserFactory extends ModelFactory
 {
     protected string $modelClass = User::class;
 

@@ -22,9 +22,9 @@ use KodeKeep\Fabrik\Tests\Factories\UserFactory;
 use KodeKeep\Fabrik\Tests\TestCase;
 
 /**
- * @covers \KodeKeep\Fabrik\Factory
+ * @covers \KodeKeep\Fabrik\ModelFactory
  */
-class FactoryTest extends TestCase
+class ModelFactoryTest extends TestCase
 {
     use RefreshDatabase;
 
