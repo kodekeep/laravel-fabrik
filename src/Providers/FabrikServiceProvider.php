@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace KodeKeep\Fabrik\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use KodeKeep\Fabrik\Commands\MakeFabrikCommand;
 
 class FabrikServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,10 @@ class FabrikServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../../config/fabrik.php' => $this->app->configPath('fabrik.php'),
             ], 'config');
+
+            $this->commands([MakeFabrikCommand::class]);
         }
+
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'fabrik');
     }
 }
