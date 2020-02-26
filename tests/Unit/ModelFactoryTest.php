@@ -41,10 +41,20 @@ class ModelFactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_gives_you_multiple_factory_model_instances_that_were_persisted(): void
+    public function it_gives_you_multiple_factory_model_instances_that_are_persisted(): void
     {
         $this->assertInstanceOf(Collection::class, UserFactory::new()->times(3)->create());
         $this->assertCount(3, UserFactory::new()->times(3)->create());
+    }
+
+    /** @test */
+    public function it_gives_you_multiple_factory_model_instances_that_are_unique_and_persisted(): void
+    {
+        $collection = UserFactory::new()->times(3)->create();
+
+        $this->assertInstanceOf(Collection::class, $collection);
+        $this->assertCount(3, $collection);
+        $this->assertCount(3, collect($collection)->pluck('name'));
     }
 
     /** @test */
@@ -54,10 +64,20 @@ class ModelFactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_gives_you_multiple_factory_model_instances_that_were_instantiated(): void
+    public function it_gives_you_multiple_factory_model_instances_that_are_instantiated(): void
     {
         $this->assertInstanceOf(Collection::class, UserFactory::new()->times(3)->make());
         $this->assertCount(3, UserFactory::new()->times(3)->make());
+    }
+
+    /** @test */
+    public function it_gives_you_multiple_factory_model_instances_that_are_unique_and_instantiated(): void
+    {
+        $collection = UserFactory::new()->times(3)->make();
+
+        $this->assertInstanceOf(Collection::class, $collection);
+        $this->assertCount(3, $collection);
+        $this->assertCount(3, collect($collection)->pluck('name'));
     }
 
     /** @test */
@@ -71,6 +91,16 @@ class ModelFactoryTest extends TestCase
     {
         $this->assertInstanceOf(Collection::class, UserFactory::new()->times(3)->raw());
         $this->assertCount(3, UserFactory::new()->times(3)->raw());
+    }
+
+    /** @test */
+    public function it_gives_you_multiple_factory_model_instances_that_are_unique_and_raw(): void
+    {
+        $collection = UserFactory::new()->times(3)->raw();
+
+        $this->assertInstanceOf(Collection::class, $collection);
+        $this->assertCount(3, $collection);
+        $this->assertCount(3, collect($collection)->pluck('name'));
     }
 
     /** @test */
