@@ -1,11 +1,11 @@
 # Laravel Fabrik
 
-[![Latest Version](https://badgen.net/packagist/v/kodekeep/laravel-fabrk)](https://packagist.org/packages/kodekeep/laravel-fabrk)
-[![Software License](https://badgen.net/packagist/license/kodekeep/laravel-fabrk)](https://packagist.org/packages/kodekeep/laravel-fabrk)
-[![Build Status](https://img.shields.io/github/workflow/status/kodekeep/laravel-fabrk/run-tests?label=tests)](https://github.com/kodekeep/laravel-fabrk/actions?query=workflow%3Arun-tests+branch%3Amaster)
-[![Coverage Status](https://badgen.net/codeclimate/coverage/kodekeep/laravel-fabrk)](https://codeclimate.com/github/kodekeep/laravel-fabrk)
-[![Quality Score](https://badgen.net/codeclimate/maintainability/kodekeep/laravel-fabrk)](https://codeclimate.com/github/kodekeep/laravel-fabrk)
-[![Total Downloads](https://badgen.net/packagist/dt/kodekeep/laravel-fabrk)](https://packagist.org/packages/kodekeep/laravel-fabrk)
+[![Latest Version](https://badgen.net/packagist/v/kodekeep/laravel-fabrik)](https://packagist.org/packages/kodekeep/laravel-fabrik)
+[![Software License](https://badgen.net/packagist/license/kodekeep/laravel-fabrik)](https://packagist.org/packages/kodekeep/laravel-fabrik)
+[![Build Status](https://img.shields.io/github/workflow/status/kodekeep/laravel-fabrik/run-tests?label=tests)](https://github.com/kodekeep/laravel-fabrik/actions?query=workflow%3Arun-tests+branch%3Amaster)
+[![Coverage Status](https://badgen.net/codeclimate/coverage/kodekeep/laravel-fabrik)](https://codeclimate.com/github/kodekeep/laravel-fabrik)
+[![Quality Score](https://badgen.net/codeclimate/maintainability/kodekeep/laravel-fabrik)](https://codeclimate.com/github/kodekeep/laravel-fabrik)
+[![Total Downloads](https://badgen.net/packagist/dt/kodekeep/laravel-fabrik)](https://packagist.org/packages/kodekeep/laravel-fabrik)
 
 This package was created by, and is maintained by [Brian Faust](https://github.com/faustbrian), and provides Supercharged Model Factories for Laravel.
 
