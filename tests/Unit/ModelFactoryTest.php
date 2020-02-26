@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace KodeKeep\Fabrik\Tests\Unit;
 
 use BadMethodCallException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use KodeKeep\Fabrik\Tests\Factories\Post;
 use KodeKeep\Fabrik\Tests\Factories\User;
@@ -26,8 +25,6 @@ use KodeKeep\Fabrik\Tests\TestCase;
  */
 class ModelFactoryTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function it_gives_you_a_factory_instance(): void
     {
