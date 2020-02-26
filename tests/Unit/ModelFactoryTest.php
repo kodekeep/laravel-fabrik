@@ -32,20 +32,20 @@ class ModelFactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_gives_you_a_factory_model_instance_that_was_persisted(): void
+    public function it_gives_you_a_factory_model_instance_that_was_created(): void
     {
         $this->assertInstanceOf(User::class, UserFactory::new()->create());
     }
 
     /** @test */
-    public function it_gives_you_multiple_factory_model_instances_that_are_persisted(): void
+    public function it_gives_you_multiple_factory_model_instances_that_are_created(): void
     {
         $this->assertInstanceOf(Collection::class, UserFactory::new()->times(3)->create());
         $this->assertCount(3, UserFactory::new()->times(3)->create());
     }
 
     /** @test */
-    public function it_gives_you_multiple_factory_model_instances_that_are_unique_and_persisted(): void
+    public function it_gives_you_multiple_factory_model_instances_that_are_unique_and_created(): void
     {
         $collection = UserFactory::new()->times(3)->create();
 
@@ -55,20 +55,20 @@ class ModelFactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_gives_you_a_factory_model_instance_that_was_instantiated(): void
+    public function it_gives_you_a_factory_model_instance_that_are_made(): void
     {
         $this->assertInstanceOf(User::class, UserFactory::new()->make());
     }
 
     /** @test */
-    public function it_gives_you_multiple_factory_model_instances_that_are_instantiated(): void
+    public function it_gives_you_multiple_factory_model_instances_that_are_made(): void
     {
         $this->assertInstanceOf(Collection::class, UserFactory::new()->times(3)->make());
         $this->assertCount(3, UserFactory::new()->times(3)->make());
     }
 
     /** @test */
-    public function it_gives_you_multiple_factory_model_instances_that_are_unique_and_instantiated(): void
+    public function it_gives_you_multiple_factory_model_instances_that_are_unique_and_made(): void
     {
         $collection = UserFactory::new()->times(3)->make();
 
