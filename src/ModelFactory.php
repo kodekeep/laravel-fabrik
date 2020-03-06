@@ -15,13 +15,13 @@ namespace KodeKeep\Fabrik;
 
 use BadMethodCallException;
 use Faker\Factory as FakerFactory;
+use Faker\Generator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use KodeKeep\Fabrik\Contracts\ModelFactory as Contract;
 
-abstract class ModelFactory implements Contract
+abstract class ModelFactory
 {
     protected string $modelClass;
 
@@ -35,6 +35,11 @@ abstract class ModelFactory implements Contract
     public static function new(): self
     {
         return new static();
+    }
+
+    public function getData(Generator $faker): array
+    {
+        return factory($this->modelClass)->raw();
     }
 
     public function create(array $extra = []): Model
@@ -80,7 +85,7 @@ abstract class ModelFactory implements Contract
         throw new BadMethodCallException(sprintf('Call to undefined method %s::%s()', static::class, $method));
     }
 
-    private function guessFactoryClassName(string $className): Contract
+    private function guessFactoryClassName(string $className): self
     {
         $baseClassName = (new \ReflectionClass($className))->getShortName();
         $factoryClass  = config('fabrik.namespaces.factories').'\\'.$baseClassName.'Factory';
@@ -88,7 +93,7 @@ abstract class ModelFactory implements Contract
         return new $factoryClass();
     }
 
-    private function forwardCallToWith($method, $parameters): Contract
+    private function forwardCallToWith($method, $parameters): self
     {
         $modelName  = substr($method, 4);
         $modelClass = config('fabrik.namespaces.models').'\\'.Str::singular($modelName);

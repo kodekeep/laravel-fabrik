@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace KodeKeep\Fabrik;
 
 use Illuminate\Support\Collection;
-use KodeKeep\Fabrik\Contracts\ModelFactory;
 
 class ModelCollectionFactory
 {
